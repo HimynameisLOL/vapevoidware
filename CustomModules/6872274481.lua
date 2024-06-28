@@ -1,11 +1,11 @@
 local GuiLibrary = shared.GuiLibrary
-local VoidwareFunctions = {WhitelistLoaded = false, WhitelistRefreshEvent = Instance.new("BindableEvent"), WhitelistSucceeded = false, WhitelistLoadTime = tick()}
-local VoidwareLibraries = {}
+local NebulawareFunctions = {WhitelistLoaded = false, WhitelistRefreshEvent = Instance.new("BindableEvent"), WhitelistSucceeded = false, WhitelistLoadTime = tick()}
+local NebulawareLibraries = {}
 local startTime = tick()
 local timeTaken = tick() - startTime
 local function vapeGithubRequest(scripturl)
 	if not isfile("vape/"..scripturl) then
-		local suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/Erchobg/vapevoidware/"..readfile("vape/commithash.txt").."/"..scripturl, true) end)
+		local suc, res = pcall(function() return game:HttpGet("https://raw.githubusercontent.com/Erchobg/vapenebulaware/"..readfile("vape/commithash.txt").."/"..scripturl, true) end)
 		assert(suc, res)
 		assert(res ~= "404: Not Found", res)
 		if scripturl:find(".lua") then res = "--This watermark is used to delete the file if its cached, remove it to make the file persist after commits.\n"..res end
@@ -13,9 +13,9 @@ local function vapeGithubRequest(scripturl)
 	end
 	return readfile("vape/"..scripturl)
 end
-local RenderFunctions = loadstring(vapeGithubRequest("Libraries/voidwarefunctions.lua"))()
-local VoidwareWhitelistStore = {
-	Hash = "voidwaremoment",
+local RenderFunctions = loadstring(vapeGithubRequest("Libraries/nebulawarefunctions.lua"))()
+local NebulawareWhitelistStore = {
+	Hash = "nebulawaremoment",
 	BlacklistTable = {},
 	Tab = {},
 	Rank = "Standard",
@@ -28,15 +28,15 @@ local VoidwareWhitelistStore = {
 	},
 	RankChangeEvent = Instance.new("BindableEvent"),
 	chatstrings = {
-		voidwaremoment = "Voidware",
+		nebulawaremoment = "Nebulaware",
 		blackwaremoment = "Blackware",
-		voidwarelitemoment = "Voidware Lite"
+		nebulawarelitemoment = "Nebulaware Lite"
 	},
-	LocalPlayer = {Rank = "STANDARD", Attackable = true, Priority = 1, TagText = "VOIDWARE USER", TagColor = "0000FF", TagHidden = true, HWID = "ABCDEFG", Accounts = {}, BlacklistedProducts = {}, UID = 0},
+	LocalPlayer = {Rank = "STANDARD", Attackable = true, Priority = 1, TagText = "NEBULAWARE USER", TagColor = "0000FF", TagHidden = true, HWID = "ABCDEFG", Accounts = {}, BlacklistedProducts = {}, UID = 0},
 	Players = {}
 }
 local tags = {}
-local VoidwareStore = {
+local NebulawareStore = {
 	maindirectory = "vape",
 	VersionInfo = {
         MainVersion = "3.3",
@@ -45,9 +45,9 @@ local VoidwareStore = {
 		BuildType = "Stable",
 		VersionID = "3.3"
     },
-	FolderTable = {"vape/Voidware", "vape/Voidware/data"},
+	FolderTable = {"vape/Nebulaware", "vape/Nebulaware/data"},
 	SystemFiles = {"vape/NewMainScript.lua", "vape/MainScript.lua", "vape/GuiLibrary.lua", "vape/Universal.lua"},
-	watermark = function(text) return ("[Voidware] "..text) end,
+	watermark = function(text) return ("[Nebulaware] "..text) end,
 	Tweening = false,
 	TimeLoaded = tick(),
 	CurrentPing = 0,
@@ -56,7 +56,7 @@ local VoidwareStore = {
 	vapePrivateCommands = {},
 	Enums = {},
 	jumpTick = tick(),
-	entityIDs = shared.VoidwareStore and type(shared.VoidwareStore.entityIDs) == "table" and shared.VoidwareStore.entityIDs or {fakeIDs = {}},
+	entityIDs = shared.NebulawareStore and type(shared.NebulawareStore.entityIDs) == "table" and shared.NebulawareStore.entityIDs or {fakeIDs = {}},
 	bedtable = {},
 	oldchatTabs = {
 		oldchanneltab = nil,
@@ -153,7 +153,7 @@ void.round = function(x : Number)
 	return x % 0.1 >= 0.05 and x + (0.1 - x % 0.1) or x - x % 0.1;
 end
 
-void.version = VoidwareStore.VersionInfo.MainVersion
+void.version = NebulawareStore.VersionInfo.MainVersion
 
 void.load = tick()
 
@@ -162,7 +162,7 @@ local AutoLeave = {Enabled = false}
 local function GetBedTeam(bedtomark)
     for i,v in pairs(game.Teams:GetChildren()) do
         if bedtomark.Blanket.BrickColor == v.TeamColor then
-	        VoidwareStore.bedtable[bedtomark] = v.Name
+	        NebulawareStore.bedtable[bedtomark] = v.Name
 	       break
       end
     end
@@ -297,7 +297,7 @@ end
 
 local function InfoNotification(title, text, delay)
 	local suc, res = pcall(function()
-		local frame = GuiLibrary.CreateNotification(title or "Voidware", text or "Successfully called function", delay or 7, "assets/InfoNotification.png")
+		local frame = GuiLibrary.CreateNotification(title or "Nebulaware", text or "Successfully called function", delay or 7, "assets/InfoNotification.png")
 		return frame
 	end)
 	return (suc and res)
@@ -1831,7 +1831,7 @@ do
 	end)
 	local textlabel = Instance.new("TextLabel")
 	textlabel.Size = UDim2.new(0.302310646, 0, 0.062656641, 0)
-	textlabel.Text = "Thanks for using Voidware :D -erchobg"
+	textlabel.Text = "Thanks for using Nebulaware :D -erchobg"
 	textlabel.BackgroundTransparency = 1
 	textlabel.ZIndex = 10
 	textlabel.TextStrokeTransparency = 0
@@ -1843,9 +1843,9 @@ do
 end
 
 if store.matchState == 0 then
-	warningNotification("VoidwareAntiCrash", "Waiting for the game to load...", 5)
+	warningNotification("NebulawareAntiCrash", "Waiting for the game to load...", 5)
 	repeat task.wait() until store.matchState ~= 0
-	warningNotification("VoidwareAntiCrash", "Game Loaded. Loading Voidware now...", 3)
+	warningNotification("NebulawareAntiCrash", "Game Loaded. Loading Nebulaware now...", 3)
 end
 
 run(function()
@@ -7700,13 +7700,13 @@ run(function()
 			if calling then 
 				table.insert(AutoToxic.Connections, vapeEvents.BedwarsBedBreak.Event:Connect(function(bedTable)
 					if AutoToxicBedDestroyed.Enabled and bedTable.brokenBedTeam.id == lplr:GetAttribute('Team') then
-						local custommsg = #AutoToxicPhrases6.ObjectList > 0 and AutoToxicPhrases6.ObjectList[math.random(1, #AutoToxicPhrases6.ObjectList)] or 'Who needs a bed when you got Voidware <name>? | Voidware'
+						local custommsg = #AutoToxicPhrases6.ObjectList > 0 and AutoToxicPhrases6.ObjectList[math.random(1, #AutoToxicPhrases6.ObjectList)] or 'Who needs a bed when you got Nebulaware <name>? | Nebulaware'
 						if custommsg then
 							custommsg = custommsg:gsub('<name>', (bedTable.player.DisplayName or bedTable.player.Name))
 						end
 						textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(custommsg)
 					elseif AutoToxicBedBreak.Enabled and bedTable.player.UserId == lplr.UserId then
-						local custommsg = #AutoToxicPhrases7.ObjectList > 0 and AutoToxicPhrases7.ObjectList[math.random(1, #AutoToxicPhrases7.ObjectList)] or 'Your bed has been sent to the abyss <teamname>! | Voidware'
+						local custommsg = #AutoToxicPhrases7.ObjectList > 0 and AutoToxicPhrases7.ObjectList[math.random(1, #AutoToxicPhrases7.ObjectList)] or 'Your bed has been sent to the abyss <teamname>! | Nebulaware'
 						if custommsg then
 							local team = bedwars.QueueMeta[store.queueType].teams[tonumber(bedTable.brokenBedTeam.id)]
 							local teamname = team and team.displayName:lower() or 'white'
@@ -7723,7 +7723,7 @@ run(function()
 						if killed == lplr then 
 							if (not leavesaid) and killer ~= lplr and AutoToxicDeath.Enabled then
 								leavesaid = true
-								local custommsg = #AutoToxicPhrases3.ObjectList > 0 and AutoToxicPhrases3.ObjectList[math.random(1, #AutoToxicPhrases3.ObjectList)] or 'I was too laggy <name>. That\'s why you won. | Voidware'
+								local custommsg = #AutoToxicPhrases3.ObjectList > 0 and AutoToxicPhrases3.ObjectList[math.random(1, #AutoToxicPhrases3.ObjectList)] or 'I was too laggy <name>. That\'s why you won. | Nebulaware'
 								if custommsg then
 									custommsg = custommsg:gsub('<name>', (killer.DisplayName or killer.Name))
 								end
@@ -7731,9 +7731,9 @@ run(function()
 							end
 						else
 							if killer == lplr and AutoToxicFinalKill.Enabled then 
-								local custommsg = #AutoToxicPhrases2.ObjectList > 0 and AutoToxicPhrases2.ObjectList[math.random(1, #AutoToxicPhrases2.ObjectList)] or '<name> things could have ended for you so differently, if you\'ve used Voidware. | Voidware'
+								local custommsg = #AutoToxicPhrases2.ObjectList > 0 and AutoToxicPhrases2.ObjectList[math.random(1, #AutoToxicPhrases2.ObjectList)] or '<name> things could have ended for you so differently, if you\'ve used Nebulaware. | Nebulaware'
 								if custommsg == lastsaid then
-									custommsg = #AutoToxicPhrases2.ObjectList > 0 and AutoToxicPhrases2.ObjectList[math.random(1, #AutoToxicPhrases2.ObjectList)] or '<name> things could have ended for you so differently, if you\'ve used Voidware. | Voidware'
+									custommsg = #AutoToxicPhrases2.ObjectList > 0 and AutoToxicPhrases2.ObjectList[math.random(1, #AutoToxicPhrases2.ObjectList)] or '<name> things could have ended for you so differently, if you\'ve used Nebulaware. | Nebulaware'
 								else
 									lastsaid = custommsg
 								end
@@ -7752,11 +7752,11 @@ run(function()
 							sendmessage('gg')
 						end
 						if AutoToxicWin.Enabled then
-							sendmessage(#AutoToxicPhrases.ObjectList > 0 and AutoToxicPhrases.ObjectList[math.random(1, #AutoToxicPhrases.ObjectList)] or 'Voidware is simply better everyone. | Voidware')
+							sendmessage(#AutoToxicPhrases.ObjectList > 0 and AutoToxicPhrases.ObjectList[math.random(1, #AutoToxicPhrases.ObjectList)] or 'Nebulaware is simply better everyone. | Nebulaware')
 						end
 					end
 				end))
-				table.insert(AutoToxic.Connections, RenderStore.MessageReceived.Event:Connect(function(plr, text)
+				table.insert(AutoToxic.Connections, NebulawareStore.MessageReceived.Event:Connect(function(plr, text)
 					if AutoToxicRespond.Enabled then
 						local args = text:split(' ')
 						if plr and plr ~= lplr and not alreadyreported[plr] then
@@ -7767,7 +7767,7 @@ run(function()
 								if custommsg then
 									custommsg = custommsg:gsub('<name>', (plr.DisplayName or plr.Name))
 								end
-								local msg = (custommsg or getrandomvalue(rendermessages[1]):gsub('<name>', plr.DisplayName)..' | Voidware')
+								local msg = (custommsg or getrandomvalue(rendermessages[1]):gsub('<name>', plr.DisplayName)..' | Nebulaware')
 								sendmessage(msg)
 							end
 						end
@@ -9345,20 +9345,20 @@ task.spawn(function()
 		pcall(function()
 			if not isfile("vape/Profiles/bedwarsdata.txt") then 
 				local commit = "main"
-				for i,v in pairs(game:HttpGet("https://github.com/Erchobg/vapevoidware"):split("\n")) do 
+				for i,v in pairs(game:HttpGet("https://github.com/Erchobg/vapenebulaware"):split("\n")) do 
 					if v:find("commit") and v:find("fragment") then 
 						local str = v:split("/")[5]
 						commit = str:sub(0, str:find('"') - 1)
 						break
 					end
 				end
-				writefile("vape/Profiles/bedwarsdata.txt", game:HttpGet("https://raw.githubusercontent.com/Erchobg/vapevoidware/"..commit.."/CustomModules/bedwarsdata", true))
+				writefile("vape/Profiles/bedwarsdata.txt", game:HttpGet("https://raw.githubusercontent.com/Erchobg/vapenebulaware/"..commit.."/CustomModules/bedwarsdata", true))
 			end
 			local olddata = readfile("vape/Profiles/bedwarsdata.txt")
 
 			repeat
 				local commit = "main"
-				for i,v in pairs(game:HttpGet("https://github.com/Erchobg/vapevoidware"):split("\n")) do 
+				for i,v in pairs(game:HttpGet("https://github.com/Erchobg/vapenebulaware"):split("\n")) do 
 					if v:find("commit") and v:find("fragment") then 
 						local str = v:split("/")[5]
 						commit = str:sub(0, str:find('"') - 1)
@@ -9366,7 +9366,7 @@ task.spawn(function()
 					end
 				end
 				
-				local newdata = game:HttpGet("https://raw.githubusercontent.com/Erchobg/vapevoidware/"..commit.."/CustomModules/bedwarsdata", true)
+				local newdata = game:HttpGet("https://raw.githubusercontent.com/Erchobg/vapenebulaware/"..commit.."/CustomModules/bedwarsdata", true)
 				if newdata ~= olddata then 
 					rundata(game:GetService("HttpService"):JSONDecode(newdata), game:GetService("HttpService"):JSONDecode(olddata))
 					olddata = newdata
@@ -9385,14 +9385,14 @@ task.spawn(function()
 		AutoLeave.ToggleButton(false)
 	end
 end)
-function VoidwareFunctions:GetPlayerType(plr)
-	if not VoidwareFunctions.WhitelistLoaded then return "DEFAULT", true, 0, "SPECIAL USER", "FFFFFF", true, 0, false, "ABCDEFGH" end
+function NebulawareFunctions:GetPlayerType(plr)
+	if not NebulawareFunctions.WhitelistLoaded then return "DEFAULT", true, 0, "SPECIAL USER", "FFFFFF", true, 0, false, "ABCDEFGH" end
 	plr = plr or lplr
-	local tab = VoidwareWhitelistStore.Players[plr.UserId]
+	local tab = NebulawareWhitelistStore.Players[plr.UserId]
 	if tab == nil then
 		return "DEFAULT", true, 0, "SPECIAL USER", "FFFFFF", true, 0, false, "ABCDEFGH"
 	else
-		tab.Priority = VoidwarePriority[tab.Rank:upper()]
+		tab.Priority = NebulawarePriority[tab.Rank:upper()]
 		return tab.Rank, tab.Attackable, tab.Priority, tab.TagText, tab.TagColor, tab.TagHidden, tab.UID, tab.HWID
 	end
 end
@@ -9486,7 +9486,7 @@ runFunction(function()
 					end
 				end)
 			else
-				VoidwareStore.jumpTick = tick() + 5
+				NebulawareStore.jumpTick = tick() + 5
 			end
 		end
 	})
@@ -9610,7 +9610,7 @@ task.spawn(function()
         end
         end)
     end
-    VoidwareStore.Tweening = tweening
+    NebulawareStore.Tweening = tweening
     tweening = false
     task.wait()
   until not vapeInjected
@@ -9618,7 +9618,7 @@ end)
 local vapeAssert = function(argument, title, text, duration, hault, moduledisable, module) 
 	if not argument then
     local suc, res = pcall(function()
-    local notification = GuiLibrary.CreateNotification(title or "Voidware", text or "Failed to call function.", duration or 20, "assets/WarningNotification.png")
+    local notification = GuiLibrary.CreateNotification(title or "Nebulaware", text or "Failed to call function.", duration or 20, "assets/WarningNotification.png")
     notification.IconLabel.ImageColor3 = Color3.new(220, 0, 0)
     notification.Frame.Frame.ImageColor3 = Color3.new(220, 0, 0)
     if moduledisable and (module and GuiLibrary.ObjectsThatCanBeSaved[module.."OptionsButton"].Api.Enabled) then GuiLibrary.ObjectsThatCanBeSaved[module.."OptionsButton"].Api.ToggleButton(false) end
@@ -9724,7 +9724,7 @@ local function FindTarget(dist, blockRaycast, includemobs, healthmethod)
 	local sortmethod = healthmethod and "Health" or "Normal"
 	local function raycasted(entityroot) return abletocalculate() and blockRaycast and workspace:Raycast(entityroot.Position, Vector3.new(0, -2000, 0), store.blockRaycast) or not blockRaycast and true or false end
 	for i,v in pairs(playersService:GetPlayers()) do
-		if v ~= lplr and abletocalculate() and isAlive(v) and ({VoidwareFunctions:GetPlayerType(v)})[2] and v.Team ~= lplr.Team then
+		if v ~= lplr and abletocalculate() and isAlive(v) and ({NebulawareFunctions:GetPlayerType(v)})[2] and v.Team ~= lplr.Team then
 			if not ({whitelist:get(v)})[2] then 
 				continue
 			end
@@ -9771,7 +9771,7 @@ local function FindTarget(dist, blockRaycast, includemobs, healthmethod)
 		end
 		for i,v in pairs(collectionService:GetTagged("Drone")) do
 			local plr = playersService:GetPlayerByUserId(v:GetAttribute("PlayerUserId"))
-			if plr and plr ~= lplr and plr.Team and lplr.Team and plr.Team ~= lplr.Team and ({VoidwareFunctions:GetPlayerType(plr)})[2] and abletocalculate() and v.PrimaryPart and v:FindFirstChild("Humanoid") and v.Humanoid.Health then
+			if plr and plr ~= lplr and plr.Team and lplr.Team and plr.Team ~= lplr.Team and ({NebulawareFunctions:GetPlayerType(plr)})[2] and abletocalculate() and v.PrimaryPart and v:FindFirstChild("Humanoid") and v.Humanoid.Health then
 				if sortmethods[sortmethod](v.PrimaryPart, v.Humanoid.Health) and raycasted(v.PrimaryPart) then
 					sort = healthmethod and v.Humanoid.Health or GetMagnitudeOf2Objects(lplr.Character.HumanoidRootPart, v.PrimaryPart)
 					entity.Player = {Character = v, Name = "Drone", DisplayName = "Drone", UserId = 1}
@@ -9817,7 +9817,7 @@ runFunction(function()
 					table.insert(Autowin.Connections, runService.Heartbeat:Connect(function()
 						pcall(function()
 						if not isnetworkowner(lplr.Character.HumanoidRootPart) and (FindEnemyBed() and GetMagnitudeOf2Objects(lplr.Character.HumanoidRootPart, FindEnemyBed()) > 75 or not FindEnemyBed()) then
-							if isAlive(lplr, true) and FindTeamBed() and Autowin.Enabled and not VoidwareStore.GameFinished then
+							if isAlive(lplr, true) and FindTeamBed() and Autowin.Enabled and not NebulawareStore.GameFinished then
 								lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
 								lplr.Character.Humanoid:TakeDamage(lplr.Character.Humanoid.Health)
 							end
@@ -9841,7 +9841,7 @@ runFunction(function()
 						end
 						end)
 						if AutowinNotification.Enabled then
-							local bedname = VoidwareStore.bedtable[bed] or "unknown"
+							local bedname = NebulawareStore.bedtable[bed] or "unknown"
 							task.spawn(InfoNotification, "Autowin", "Destroying "..bedname:lower().." team's bed", 5)
 						end
 						if not isEnabled("Nuker") then
@@ -9850,7 +9850,7 @@ runFunction(function()
 						repeat task.wait() until FindEnemyBed() ~= bed or not isAlive()
 						if FindTarget(45, store.blockRaycast).RootPart and isAlive() then
 							if AutowinNotification.Enabled then
-								local team = VoidwareStore.bedtable[bed] or "unknown"
+								local team = NebulawareStore.bedtable[bed] or "unknown"
 								task.spawn(InfoNotification, "Autowin", "Killing "..team:lower().." team's teamates", 5)
 							end
 							repeat
@@ -9889,14 +9889,14 @@ runFunction(function()
 								lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
 							end
 						else
-						if VoidwareStore.GameFinished then return end
+						if NebulawareStore.GameFinished then return end
 						lplr.Character.Humanoid:TakeDamage(lplr.Character.Humanoid.Health)
 						lplr.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Dead)
 						end
 					end))
 					table.insert(Autowin.Connections, lplr.CharacterAdded:Connect(function()
 						if not isAlive(lplr, true) then repeat task.wait() until isAlive(lplr, true) end
-						if not VoidwareStore.GameFinished then return end
+						if not NebulawareStore.GameFinished then return end
 						local oldpos = lplr.Character.HumanoidRootPart.CFrame
 						repeat 
 						lplr.Character.HumanoidRootPart.CFrame = oldpos
@@ -10030,9 +10030,9 @@ runFunction(function()
 	 end
 	})
 end)
-function VoidwareFunctions:LoadTime()
+function NebulawareFunctions:LoadTime()
 	if shared.VapeFullyLoaded then
-		return (tick() - VoidwareStore.TimeLoaded)
+		return (tick() - NebulawareStore.TimeLoaded)
 	else
 		return 0
 	end
@@ -10047,7 +10047,7 @@ runFunction(function()
 		Function = function(callback)
 			if callback then
 				task.spawn(function()
-					if VoidwareFunctions:LoadTime() <= 0.1 or isEnabled("InfiniteFly") then
+					if NebulawareFunctions:LoadTime() <= 0.1 or isEnabled("InfiniteFly") then
 						MiddleTP.ToggleButton(false)
 						return
 					end
@@ -10352,7 +10352,7 @@ end)
 
 runFunction(function()
 	local GetHost = {Enabled = false}
-	GetHost = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
+	GetHost = GuiLibrary.ObjectsThatCanBeSaved.NebulawareWindow.Api.CreateOptionsButton({
 		Name = "GetHost",
 		HoverText = ":troll:",
 		Function = function(callback) 
@@ -10592,7 +10592,7 @@ local WaterMark = GuiLibrary.ObjectsThatCanBeSaved.RenderWindow.Api.CreateOption
 			
 			Converted["_ScreenGui"].ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 			Converted["_ScreenGui"].Parent = plrgui
-			Converted["_ScreenGui"].Name = "WatermarkVoidWareLol"
+			Converted["_ScreenGui"].Name = "WatermarkNebulaWareLol"
 			
 			Converted["_Frame"].BackgroundColor3 = Color3.fromRGB(17.00000088661909, 17.00000088661909, 17.00000088661909)
 			Converted["_Frame"].BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -10615,7 +10615,7 @@ local WaterMark = GuiLibrary.ObjectsThatCanBeSaved.RenderWindow.Api.CreateOption
 			Converted["_UIStroke"].Parent = Converted["_Frame"]
 			
 			Converted["_TextLabel"].Font = Enum.Font.Sarpanch
-			Converted["_TextLabel"].Text = "VoidWare | FPS | .gg/e2HUEAmsuA"
+			Converted["_TextLabel"].Text = "NebulaWare | FPS | .gg/e2HUEAmsuA"
 			Converted["_TextLabel"].TextColor3 = Color3.fromRGB(255, 255, 255)
 			Converted["_TextLabel"].TextScaled = true
 			Converted["_TextLabel"].TextSize = 14
@@ -10774,7 +10774,7 @@ local WaterMark = GuiLibrary.ObjectsThatCanBeSaved.RenderWindow.Api.CreateOption
 					local current = tick()
 					if current - lastupdate >= 1 then
 						local fps = math.floor(framecounter / (current - lastupdate))
-						parent.Text = "VoidWare | " .. fps .. " FPS | .gg/e2HUEAmsuA"
+						parent.Text = "NebulaWare | " .. fps .. " FPS | .gg/e2HUEAmsuA"
 						lastupdate = current
 						framecounter = 0
 					end
@@ -10786,8 +10786,8 @@ local WaterMark = GuiLibrary.ObjectsThatCanBeSaved.RenderWindow.Api.CreateOption
 			coroutine.wrap(TextUpdateOmegaLul)()
 		else 
 			local plrgui = game.Players.LocalPlayer.PlayerGui
-			if plrgui:FindFirstChild("WatermarkVoidWareLol") then 
-				local watermark = plrgui:FindFirstChild("WatermarkVoidWareLol") 
+			if plrgui:FindFirstChild("WatermarkNebulaWareLol") then 
+				local watermark = plrgui:FindFirstChild("WatermarkNebulaWareLol") 
 				watermark:Destroy()
 			else
 				warningNotification("WaterMark Error", "Couldn't find the watermark in playergui, please dm salad about this", 60)
@@ -11509,8 +11509,8 @@ runFunction(function()
 		InfiniteFly = function(plr) 
 			repeat 
 				if isAlive(plr, true) then 
-					local magnitude = (RenderStore.LocalPosition - plr.Character.HumanoidRootPart.Position).Magnitude
-					if magnitude >= 10000 and playerRaycast(plr) == nil and playerRaycast({Character = {PrimaryPart = {Position = RenderStore.LocalPosition}}}) then 
+					local magnitude = (NebulawareStore.LocalPosition - plr.Character.HumanoidRootPart.Position).Magnitude
+					if magnitude >= 10000 and playerRaycast(plr) == nil and playerRaycast({Character = {PrimaryPart = {Position = NebulawareStore.LocalPosition}}}) then 
 						InfoNotification('HackerDetector', plr.DisplayName..' is using InfiniteFly!', 60) 
 						cachedetection(plr, 'InfiniteFly')
 						table.insert(detectedusers.InfiniteFly, plr)
@@ -11825,7 +11825,7 @@ runFunction(function()
 		end 
 		return queuemeta
 	end
-	JoinQueue = GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.CreateOptionsButton({
+	JoinQueue = GuiLibrary.ObjectsThatCanBeSaved.NebulawareWindow.Api.CreateOptionsButton({
 		Name = 'JoinQueue',
 		NoSave = true,
 		HoverText = 'Starts a match for the provided gamemode.',
@@ -11867,7 +11867,7 @@ runFunction(function()
 			if calling then 
 				task.spawn(function()
 					while wait(1) and AutoBedDefense.Enabled do
-						--GuiLibrary.ObjectsThatCanBeSaved.VoidwareWindow.Api.OptionsButtons.BedProtector.ToggleButton(true)
+						--GuiLibrary.ObjectsThatCanBeSaved.NebulawareWindow.Api.OptionsButtons.BedProtector.ToggleButton(true)
 						GuiLibrary.ObjectsThatCanBeSaved.BedProtectorOptionsButton.Api.ToggleButton()
 					end
 				end)
@@ -11893,7 +11893,7 @@ GetTarget = function(distance, healthmethod, raycast, npc, mouse, bypass)
 	local mousepos = inputService:GetMouseLocation()
 	local entcalculate = function(v, name)
 		if v.PrimaryPart and v:FindFirstChildWhichIsA('Humanoid') then 
-			local localpos = (isAlive(lplr, true) and lplr.Character.HumanoidRootPart.Position or RenderStore.LocalPosition or Vector3.zero)
+			local localpos = (isAlive(lplr, true) and lplr.Character.HumanoidRootPart.Position or NebulawareStore.LocalPosition or Vector3.zero)
 			local vec, screen = worldtoscreenpoint(v.PrimaryPart.Position)
 			local distance = (healthmethod and v.Humanoid.Health or mouse and (mousepos - Vector2.new(vec.X, vec.Y)).Magnitude or (localpos - v.PrimaryPart.Position).Magnitude)
 			local raycast = (playerRaycasted({Character = v}) or not raycast)
@@ -11910,11 +11910,11 @@ GetTarget = function(distance, healthmethod, raycast, npc, mouse, bypass)
 			end
 		end
 	end
-	if not isAlive(lplr, true) and not RenderStore.LocalPosition then 
+	if not isAlive(lplr, true) and not NebulawareStore.LocalPosition then 
 		return target 
 	end
 	for i,v in next, playersService:GetPlayers() do 
-		local localpos = (isAlive(lplr, true) and lplr.Character.HumanoidRootPart.Position or RenderStore.LocalPosition or Vector3.zero)
+		local localpos = (isAlive(lplr, true) and lplr.Character.HumanoidRootPart.Position or NebulawareStore.LocalPosition or Vector3.zero)
 		if v ~= lplr and isAlive(v) and isAlive(lplr, true) then 
 			if not RenderFunctions:GetPlayerType(2, v) then 
 				continue
@@ -11990,7 +11990,7 @@ GetAllTargets = function(distance, mobs, raycast, sort)
 	}
 	for i,v in next, playersService:GetPlayers() do 
 		if v ~= lplr and isAlive(v) and isAlive(lplr, true) then 
-			if not VoidwareFunctions:GetPlayerType(2, v) then 
+			if not NebulawareFunctions:GetPlayerType(2, v) then 
 				continue
 			end
 			if not entityLibrary.isPlayerTargetable(v) then 
@@ -12250,7 +12250,7 @@ runFunction(function()
 						end
 					end
 					store.switchdelay += (ProjectileAuraDelay.Value * 0.2)
-					if RenderStore.ping > 1000 then 
+					if NebulawareStore.ping > 1000 then 
 						store.switchdelay += (store.switchdelay + 8)
 					end
 					task.wait(getItem('star') and 0 or killauraNearPlayer and 0.25 or ProjectileAuraDelay.Value + 0.15)
@@ -13223,4 +13223,4 @@ runFunction(function()
 	})
 end)
 
-warningNotification('Voidware ' .. void.version, 'Loaded in ' .. string.format('%.1f', void.round(tick() - void.load))..'s. Logged in as ' .. lplr.Name .. '.', 7)
+warningNotification('Nebulaware ' .. void.version, 'Loaded in ' .. string.format('%.1f', void.round(tick() - void.load))..'s. Logged in as ' .. lplr.Name .. '.', 7)
